@@ -72,7 +72,7 @@ import Layout from '../layouts/Layout.astro';
         <table class="w-full min-w-[600px] border border-hairline border-collapse font-mono text-xs text-left" id="weekly-grid-table">
           <thead>
             <tr class="bg-canvas text-ink-muted uppercase tracking-wider text-[10px]">
-              <th class="border border-hairline p-3 w-1/4">Quest Objective</th>
+              <th class="border border-hairline p-3 w-1/4 text-center">Quest Objective</th>
               <th class="border border-hairline p-3 text-center w-[60px]">Mon</th>
               <th class="border border-hairline p-3 text-center w-[60px]">Tue</th>
               <th class="border border-hairline p-3 text-center w-[60px]">Wed</th>
@@ -333,6 +333,35 @@ import Layout from '../layouts/Layout.astro';
         <span class="text-red-500 font-bold">STRICT_PENALTY_ACTIVE</span>
       </div>
     </footer>
+
+    <!-- Mobile Actions Drawer Modal -->
+    <div id="mobile-action-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 items-end justify-center transition-all duration-300">
+      <div class="bg-surface-1 border-t border-hairline w-full rounded-t-2xl p-6 space-y-4 max-w-md transform translate-y-full transition-transform duration-300 shadow-2xl">
+        <div class="flex items-center justify-between border-b border-hairline pb-3">
+          <h3 id="mobile-modal-title" class="font-display text-sm text-white uppercase tracking-wider font-bold">Quest Options</h3>
+          <button id="close-mobile-modal-btn" class="text-ink-muted hover:text-white text-lg font-bold focus:outline-none" aria-label="Close options drawer">✕</button>
+        </div>
+        
+        <div class="flex flex-col gap-2.5 font-mono text-xs">
+          <button id="modal-btn-edit" class="w-full text-left bg-surface-2 hover:bg-neutral-800 text-white py-3 px-4 rounded border border-hairline flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
+            <span>✏️</span> <span>Edit Quest</span>
+          </button>
+          <button id="modal-btn-up" class="w-full text-left bg-surface-2 hover:bg-neutral-800 text-white py-3 px-4 rounded border border-hairline flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
+            <span>⬆️</span> <span>Move Up</span>
+          </button>
+          <button id="modal-btn-down" class="w-full text-left bg-surface-2 hover:bg-neutral-800 text-white py-3 px-4 rounded border border-hairline flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
+            <span>⬇️</span> <span>Move Down</span>
+          </button>
+          <button id="modal-btn-delete" class="w-full text-left bg-red-950/20 hover:bg-red-900/20 text-red-500 py-3 px-4 rounded border border-red-500/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
+            <span>🗑️</span> <span>Delete Quest</span>
+          </button>
+        </div>
+        
+        <button id="cancel-mobile-modal-btn" class="w-full bg-canvas border border-hairline hover:bg-surface-2 text-ink-muted hover:text-white py-3 rounded text-center font-mono text-xs cursor-pointer transition-all active:scale-[0.98]">
+          Cancel
+        </button>
+      </div>
+    </div>
   </main>
 </Layout>
 
@@ -395,18 +424,20 @@ import Layout from '../layouts/Layout.astro';
       }
     }
 
-    // Disable / Enable form inputs
+    // Disable / Enable form inputs (Allow editing ONLY when Gate is LOCKED/Closed, isLocked === true)
     const formInputText = document.getElementById('weekly-text-input') as HTMLInputElement;
     const formInputCat = document.getElementById('weekly-category-input') as HTMLSelectElement;
     const formInputExp = document.getElementById('weekly-exp-input') as HTMLInputElement;
     const formSubmitBtn = document.querySelector('#weekly-add-form button[type="submit"]') as HTMLButtonElement;
 
-    if (formInputText) formInputText.disabled = isLocked;
-    if (formInputCat) formInputCat.disabled = isLocked;
-    if (formInputExp) formInputExp.disabled = isLocked;
+    const canEdit = isLocked;
+
+    if (formInputText) formInputText.disabled = !canEdit;
+    if (formInputCat) formInputCat.disabled = !canEdit;
+    if (formInputExp) formInputExp.disabled = !canEdit;
     if (formSubmitBtn) {
-      formSubmitBtn.disabled = isLocked;
-      if (isLocked) {
+      formSubmitBtn.disabled = !canEdit;
+      if (!canEdit) {
         formSubmitBtn.classList.add('opacity-40', 'cursor-not-allowed', 'pointer-events-none');
         formSubmitBtn.classList.remove('hover:bg-neutral-200');
       } else {
@@ -418,7 +449,7 @@ import Layout from '../layouts/Layout.astro';
     // Hide preset creation button if locked
     const createPresetBtn = document.getElementById('toggle-add-template-btn');
     if (createPresetBtn) {
-      if (isLocked) {
+      if (!canEdit) {
         createPresetBtn.classList.add('hidden');
       } else {
         createPresetBtn.classList.remove('hidden');
@@ -448,6 +479,8 @@ import Layout from '../layouts/Layout.astro';
       return;
     }
 
+    const canEdit = isLocked; // allow editing when LOCKED/CLOSED
+
     listContainer.innerHTML = '';
     weeklyTasks.forEach((task, idx) => {
       const wrapper = document.createElement('div');
@@ -470,7 +503,7 @@ import Layout from '../layouts/Layout.astro';
           <p class="text-white font-medium truncate">${task.text}</p>
           <p class="text-[9px] text-ink-muted uppercase">${catLabel} • +${task.exp} EXP</p>
         </div>
-        ${!isLocked ? `
+        ${canEdit ? `
         <div class="flex gap-1.5 ml-2">
           <button type="button" aria-label="Move objective up" class="move-weekly-up-btn text-white hover:text-neutral-200 text-[10px] bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-2.5 py-1.5 rounded cursor-pointer transition-all min-h-[36px] min-w-[28px] ${isFirst ? 'opacity-25 pointer-events-none' : ''}" title="Move Quest Up">
             ▲
@@ -488,7 +521,7 @@ import Layout from '../layouts/Layout.astro';
         ` : ''}
       `;
 
-      if (!isLocked) {
+      if (canEdit) {
         // Event listeners for move up/down
         wrapper.querySelector('.move-weekly-up-btn').addEventListener('click', () => {
           moveWeeklyTask(task.id, 'up');
@@ -560,14 +593,19 @@ import Layout from '../layouts/Layout.astro';
       const isFirst = idx === 0;
       const isLast = idx === weeklyTasks.length - 1;
 
+      const canEdit = isLocked;
+
       let cellHtml = `
-            <span class="truncate">${task.text}</span>
-            ${!isLocked ? `
-            <div class="flex items-center gap-1.5 md:opacity-0 md:group-hover/row:opacity-100 transition-all duration-200 shrink-0 flex-wrap">
+        <td class="border border-hairline p-3 font-medium text-white max-w-[150px] sm:max-w-xs text-center align-middle group/row" title="${task.text}">
+          <div class="flex items-center justify-center gap-2 relative w-full">
+            <span class="truncate select-none">${task.text}</span>
+            ${canEdit ? `
+            <!-- Desktop Action Buttons -->
+            <div class="hidden md:flex items-center gap-1 opacity-0 group-hover/row:opacity-100 transition-all duration-200 shrink-0">
               <button 
                 type="button" 
                 aria-label="Move quest up"
-                class="move-weekly-row-up-btn text-white hover:text-neutral-200 bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-2.5 py-1.5 md:px-1.5 md:py-0.5 rounded text-[10px] md:text-[9px] font-mono cursor-pointer transition-all min-h-[32px] min-w-[28px] ${isFirst ? 'opacity-25 pointer-events-none' : ''}" 
+                class="move-weekly-row-up-btn text-white hover:text-neutral-200 bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-1.5 py-0.5 rounded text-[9px] font-mono cursor-pointer transition-all ${isFirst ? 'opacity-25 pointer-events-none' : ''}" 
                 data-task-id="${task.id}"
                 title="Move quest up"
               >
@@ -576,7 +614,7 @@ import Layout from '../layouts/Layout.astro';
               <button 
                 type="button" 
                 aria-label="Move quest down"
-                class="move-weekly-row-down-btn text-white hover:text-neutral-200 bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-2.5 py-1.5 md:px-1.5 md:py-0.5 rounded text-[10px] md:text-[9px] font-mono cursor-pointer transition-all min-h-[32px] min-w-[28px] ${isLast ? 'opacity-25 pointer-events-none' : ''}" 
+                class="move-weekly-row-down-btn text-white hover:text-neutral-200 bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-1.5 py-0.5 rounded text-[9px] font-mono cursor-pointer transition-all ${isLast ? 'opacity-25 pointer-events-none' : ''}" 
                 data-task-id="${task.id}"
                 title="Move quest down"
               >
@@ -585,7 +623,7 @@ import Layout from '../layouts/Layout.astro';
               <button 
                 type="button" 
                 aria-label="Edit quest objective"
-                class="edit-weekly-row-btn text-white hover:text-neutral-200 bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-2.5 py-1.5 md:px-1.5 md:py-0.5 rounded text-[10px] md:text-[9px] font-mono cursor-pointer transition-all ml-1 min-h-[32px]" 
+                class="edit-weekly-row-btn text-white hover:text-neutral-200 bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-1.5 py-0.5 rounded text-[9px] font-mono cursor-pointer transition-all ml-1" 
                 data-task-id="${task.id}"
                 title="Edit quest objective"
               >
@@ -594,13 +632,22 @@ import Layout from '../layouts/Layout.astro';
               <button 
                 type="button" 
                 aria-label="Remove quest from dungeon"
-                class="delete-weekly-row-btn text-red-500 hover:text-red-400 bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-2.5 py-1.5 md:px-1.5 md:py-0.5 rounded text-[10px] md:text-[9px] font-mono cursor-pointer transition-all min-h-[32px]" 
+                class="delete-weekly-row-btn text-red-500 hover:text-red-400 bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-1.5 py-0.5 rounded text-[9px] font-mono cursor-pointer transition-all" 
                 data-task-id="${task.id}"
                 title="Remove quest from dungeon"
               >
                 ✕
               </button>
             </div>
+            <!-- Mobile 3-Dots Button -->
+            <button 
+              type="button" 
+              class="md:hidden text-ink-muted hover:text-white px-2 py-0.5 font-bold text-sm focus:outline-none flex items-center justify-center cursor-pointer select-none rounded hover:bg-surface-2" 
+              data-mobile-dots-id="${task.id}"
+              aria-label="Open options for ${task.text}"
+            >
+              ⋮
+            </button>
             ` : ''}
           </div>
         </td>
@@ -616,7 +663,10 @@ import Layout from '../layouts/Layout.astro';
         let innerContent = "";
         let cellClass = "w-9 h-9 sm:w-8 sm:h-8 rounded border border-hairline bg-canvas/30 transition-all duration-200 flex items-center justify-center text-[10px] font-bold text-ink-muted focus-visible:ring-1 focus-visible:ring-white focus:outline-none";
         
-        if (!isLocked) {
+        // Allow cell check toggling ONLY when Gate is ACTIVE/OPEN (isLocked === false)
+        const cellEnabled = !isLocked;
+        
+        if (cellEnabled) {
           cellClass += " hover:border-white cursor-pointer";
         } else {
           cellClass += " cursor-not-allowed opacity-80";
@@ -625,7 +675,7 @@ import Layout from '../layouts/Layout.astro';
         if (status === "completed") {
           innerContent = "✓";
           cellClass = "w-9 h-9 sm:w-8 sm:h-8 rounded border border-white bg-white/10 text-white font-bold text-xs flex items-center justify-center shadow-[0_0_8px_rgba(255,255,255,0.25)] transition-all duration-200 focus-visible:ring-1 focus-visible:ring-white focus:outline-none";
-          if (!isLocked) {
+          if (cellEnabled) {
             cellClass += " hover:scale-105 cursor-pointer";
           } else {
             cellClass += " cursor-not-allowed opacity-80";
@@ -633,7 +683,7 @@ import Layout from '../layouts/Layout.astro';
         } else if (status === "missed") {
           innerContent = "✗";
           cellClass = "w-9 h-9 sm:w-8 sm:h-8 rounded border border-red-500 bg-red-950/40 text-red-400 font-bold text-xs flex items-center justify-center shadow-[0_0_8px_rgba(239,68,68,0.3)] transition-all duration-200 focus-visible:ring-1 focus-visible:ring-white focus:outline-none";
-          if (!isLocked) {
+          if (cellEnabled) {
             cellClass += " hover:scale-105 cursor-pointer";
           } else {
             cellClass += " cursor-not-allowed opacity-80";
@@ -783,15 +833,17 @@ import Layout from '../layouts/Layout.astro';
       return;
     }
 
+    const canEdit = isLocked;
+
     container.innerHTML = '';
     templates.forEach(t => {
       const div = document.createElement('div');
       div.className = "flex items-center gap-1 bg-canvas border border-hairline p-2 rounded font-mono text-[10px] transition-all justify-between group";
       
-      if (!isLocked) {
+      if (canEdit) {
         div.className += " hover:border-white";
       } else {
-        div.className += " opacity-60";
+        div.className += " opacity-60 cursor-not-allowed";
       }
 
       const catLabels = {
@@ -804,11 +856,11 @@ import Layout from '../layouts/Layout.astro';
       const catLabel = catLabels[t.category] || t.category;
 
       div.innerHTML = `
-        <div class="flex-1 min-w-0 ${!isLocked ? 'cursor-pointer add-preset-to-weekly-btn' : 'cursor-not-allowed'}" data-id="${t.id}">
+        <div class="flex-1 min-w-0 ${canEdit ? 'cursor-pointer add-preset-to-weekly-btn' : 'cursor-not-allowed'}" data-id="${t.id}">
           <p class="text-white font-medium truncate">${t.text}</p>
           <p class="text-[8px] text-ink-muted uppercase">${catLabel} • +${t.exp} EXP</p>
         </div>
-        ${!isLocked ? `
+        ${canEdit ? `
         <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-1">
           <button type="button" class="edit-preset-btn text-white hover:underline text-[8px] font-mono cursor-pointer" data-id="${t.id}">Edit</button>
           <button type="button" class="delete-preset-btn text-red-500 hover:underline text-[8px] font-mono cursor-pointer" data-id="${t.id}">Del</button>
@@ -816,7 +868,7 @@ import Layout from '../layouts/Layout.astro';
         ` : ''}
       `;
 
-      if (!isLocked) {
+      if (canEdit) {
         // Quick add recurring task click handler
         div.querySelector('.add-preset-to-weekly-btn').addEventListener('click', () => {
           addWeeklyTask(t.text, t.category, t.exp);
@@ -878,8 +930,8 @@ import Layout from '../layouts/Layout.astro';
       const nextLockedState = !stateObj.dungeonLocked;
       
       const confirmMsg = nextLockedState 
-        ? "Warning: Locking the dungeon will freeze all task completions, edits, and deletions for this week. Proceed?" 
-        : "Unlock the dungeon gate to allow editing, adding tasks, and toggling completions. Proceed?";
+        ? "Close & Lock the Dungeon Gate? This allows you to add, edit, or reorder quests, but freezes all progress completions for this week. Proceed?" 
+        : "Activate & Open the Dungeon Gate? This seals quest configurations to begin the raid (allowing progress logging, but locking editing). Proceed?";
         
       if (confirm(confirmMsg)) {
         stateObj.dungeonLocked = nextLockedState;
@@ -902,8 +954,8 @@ import Layout from '../layouts/Layout.astro';
         e.preventDefault();
         
         const stateObj = loadState();
-        if (stateObj.dungeonLocked) {
-          alert("The dungeon is locked. No new quests can be initialized.");
+        if (!stateObj.dungeonLocked) {
+          alert("The gate is active. You must toggle the gate to LOCKED (Closed) to configure objectives.");
           return;
         }
 
@@ -941,8 +993,8 @@ import Layout from '../layouts/Layout.astro';
     if (toggleAddTemplateBtn && templateEditorPanel && cancelTemplateBtn && saveTemplateBtn) {
       toggleAddTemplateBtn.addEventListener('click', () => {
         const stateObj = loadState();
-        if (stateObj.dungeonLocked) {
-          alert("The dungeon is locked. Presets cannot be configured.");
+        if (!stateObj.dungeonLocked) {
+          alert("The gate is active. You must toggle the gate to LOCKED (Closed) to configure presets.");
           return;
         }
 
@@ -964,8 +1016,8 @@ import Layout from '../layouts/Layout.astro';
 
       saveTemplateBtn.addEventListener('click', () => {
         const stateObj = loadState();
-        if (stateObj.dungeonLocked) {
-          alert("The dungeon is locked. Presets cannot be saved.");
+        if (!stateObj.dungeonLocked) {
+          alert("The gate is active. You must toggle the gate to LOCKED (Closed) to configure presets.");
           return;
         }
 
@@ -1003,5 +1055,116 @@ import Layout from '../layouts/Layout.astro';
         updateDungeonUI();
       });
     }
+
+    // ==========================================
+    // MOBILE MODAL TRIGGERS AND ACTIONS
+    // ==========================================
+    const cancelModalBtn = document.getElementById('cancel-mobile-modal-btn');
+    const closeModalBtn = document.getElementById('close-mobile-modal-btn');
+    const modalBackdrop = document.getElementById('mobile-action-modal');
+    
+    if (cancelModalBtn) cancelModalBtn.addEventListener('click', closeMobileActionModal);
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closeMobileActionModal);
+    if (modalBackdrop) {
+      modalBackdrop.addEventListener('click', (e) => {
+        if (e.target === modalBackdrop) {
+          closeMobileActionModal();
+        }
+      });
+    }
+
+    // Modal Actions: Edit
+    const modalBtnEdit = document.getElementById('modal-btn-edit');
+    if (modalBtnEdit) {
+      modalBtnEdit.addEventListener('click', () => {
+        if (!modalActiveTaskId) return;
+        const stateObj = loadState();
+        const task = stateObj.weeklyTasks.find(t => t.id === modalActiveTaskId);
+        if (!task) return;
+        
+        const newText = prompt("Edit quest description:", task.text);
+        if (newText !== null && newText.trim()) {
+          editWeeklyTask(task.id, newText.trim(), task.category, task.exp);
+          closeMobileActionModal();
+          updateDungeonUI();
+        }
+      });
+    }
+
+    // Modal Actions: Move Up
+    const modalBtnUp = document.getElementById('modal-btn-up');
+    if (modalBtnUp) {
+      modalBtnUp.addEventListener('click', () => {
+        if (!modalActiveTaskId) return;
+        moveWeeklyTask(modalActiveTaskId, 'up');
+        closeMobileActionModal();
+        updateDungeonUI();
+      });
+    }
+
+    // Modal Actions: Move Down
+    const modalBtnDown = document.getElementById('modal-btn-down');
+    if (modalBtnDown) {
+      modalBtnDown.addEventListener('click', () => {
+        if (!modalActiveTaskId) return;
+        moveWeeklyTask(modalActiveTaskId, 'down');
+        closeMobileActionModal();
+        updateDungeonUI();
+      });
+    }
+
+    // Modal Actions: Delete
+    const modalBtnDelete = document.getElementById('modal-btn-delete');
+    if (modalBtnDelete) {
+      modalBtnDelete.addEventListener('click', () => {
+        if (!modalActiveTaskId) return;
+        const stateObj = loadState();
+        const task = stateObj.weeklyTasks.find(t => t.id === modalActiveTaskId);
+        const name = task ? task.text : "";
+        if (confirm(`Remove "${name}" and delete all records for this week?`)) {
+          deleteWeeklyTask(modalActiveTaskId);
+          closeMobileActionModal();
+          updateDungeonUI();
+        }
+      });
+    }
   });
+
+  // Modal State Variables & Helpers
+  let modalActiveTaskId = null;
+
+  function openMobileActionModal(taskId, taskText) {
+    const modal = document.getElementById('mobile-action-modal');
+    const drawer = modal ? modal.querySelector('.transform') : null;
+    const titleEl = document.getElementById('mobile-modal-title');
+    
+    if (!modal || !drawer) return;
+    
+    modalActiveTaskId = taskId;
+    if (titleEl) titleEl.textContent = taskText;
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    setTimeout(() => {
+      drawer.classList.remove('translate-y-full');
+      drawer.classList.add('translate-y-0');
+    }, 10);
+  }
+
+  function closeMobileActionModal() {
+    const modal = document.getElementById('mobile-action-modal');
+    const drawer = modal ? modal.querySelector('.transform') : null;
+    
+    if (!modal || !drawer) return;
+    
+    drawer.classList.remove('translate-y-0');
+    drawer.classList.add('translate-y-full');
+    
+    setTimeout(() => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      modalActiveTaskId = null;
+    }, 300);
+  }
 </script>
