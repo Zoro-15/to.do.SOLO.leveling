@@ -72,15 +72,20 @@ import QuoteCard from '../components/QuoteCard.astro';
               <input 
                 type="text" 
                 id="daily-text-input" 
+                name="daily-task-text"
                 required
-                placeholder="Add daily task description…" 
-                class="bg-canvas border border-hairline focus:border-white focus:outline-none rounded-md px-3 py-2 font-mono text-xs text-white w-full h-full transition-all"
+                autocomplete="off"
+                aria-label="Daily quest description"
+                placeholder="Add daily task (e.g., 100 Push-ups)…" 
+                class="bg-canvas border border-hairline focus:border-white focus:ring-1 focus:ring-white focus:outline-none rounded-md px-3 py-2 font-mono text-xs text-white w-full h-full transition-all"
               />
             </div>
             <div class="sm:col-span-3">
               <select 
                 id="daily-category-input"
-                class="bg-canvas border border-hairline focus:border-white focus:outline-none rounded-md px-2 py-2 font-mono text-xs text-white w-full h-full transition-all"
+                name="daily-task-category"
+                aria-label="Linked Stat Category"
+                class="bg-canvas border border-hairline focus:border-white focus:ring-1 focus:ring-white focus:outline-none rounded-md px-2 py-2 font-mono text-xs text-white w-full h-full transition-all"
               >
                 <option value="strength">Attack (STR)</option>
                 <option value="skills">Skills (SKL)</option>
@@ -93,18 +98,21 @@ import QuoteCard from '../components/QuoteCard.astro';
               <input 
                 type="number" 
                 id="daily-exp-input"
+                name="daily-task-exp"
+                aria-label="EXP Reward amount"
                 min="5"
                 max="100"
                 value="10"
                 step="5"
-                class="bg-canvas border border-hairline focus:border-white focus:outline-none rounded-md px-2 py-2 font-mono text-xs text-white w-full h-full text-center"
+                class="bg-canvas border border-hairline focus:border-white focus:ring-1 focus:ring-white focus:outline-none rounded-md px-2 py-2 font-mono text-xs text-white w-full h-full text-center"
                 title="EXP Reward"
               />
             </div>
             <div class="sm:col-span-1">
               <button 
                 type="submit" 
-                class="bg-white hover:bg-neutral-200 text-black font-mono font-bold text-xs uppercase rounded w-full h-full flex items-center justify-center cursor-pointer transition-all active:scale-95 py-2"
+                aria-label="Add Daily Quest"
+                class="bg-white hover:bg-neutral-200 text-black font-mono font-bold text-xs uppercase rounded w-full h-full flex items-center justify-center cursor-pointer transition-all active:scale-95 py-2.5 min-h-[44px]"
                 title="Add Task"
               >
                 +
@@ -425,11 +433,12 @@ import QuoteCard from '../components/QuoteCard.astro';
         <div class="flex items-center gap-3 flex-1 min-w-0">
           <button 
             type="button" 
-            class="toggle-daily-btn w-5 h-5 rounded border border-white/40 flex items-center justify-center cursor-pointer transition-all hover:border-white focus:outline-none ${
+            aria-label="Toggle quest completion status for ${task.text}"
+            class="toggle-daily-btn w-7 h-7 sm:w-6 sm:h-6 rounded border border-white/40 flex items-center justify-center cursor-pointer transition-all hover:border-white focus:outline-none focus-visible:ring-1 focus-visible:ring-white ${
               task.completed ? 'bg-white text-black' : 'bg-transparent text-transparent'
             }"
           >
-            <svg class="w-3.5 h-3.5 font-bold" viewBox="0 0 20 20" fill="currentColor">
+            <svg class="w-4 h-4 sm:w-3.5 sm:h-3.5 font-bold" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
           </button>
@@ -444,9 +453,9 @@ import QuoteCard from '../components/QuoteCard.astro';
           <span class="text-[10px] font-mono font-bold text-ink bg-surface-2 border border-hairline px-2 py-0.5 rounded select-none">
             +${task.exp} EXP
           </span>
-          <div class="flex gap-1">
-            <button type="button" class="edit-daily-btn text-white hover:text-neutral-200 text-[9px] font-mono bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-1.5 py-0.5 rounded cursor-pointer transition-all">Edit</button>
-            <button type="button" class="delete-daily-btn text-red-500 hover:text-red-400 text-[9px] font-mono bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-1.5 py-0.5 rounded cursor-pointer transition-all">Del</button>
+          <div class="flex gap-1.5">
+            <button type="button" aria-label="Edit daily quest ${task.text}" class="edit-daily-btn text-white hover:text-neutral-200 text-[10px] font-mono bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-2.5 py-1.5 rounded cursor-pointer transition-all min-w-[36px] min-h-[36px] sm:min-w-0 sm:min-h-0">Edit</button>
+            <button type="button" aria-label="Delete daily quest ${task.text}" class="delete-daily-btn text-red-500 hover:text-red-400 text-[10px] font-mono bg-surface-2 hover:bg-neutral-900 border border-hairline/25 px-2.5 py-1.5 rounded cursor-pointer transition-all min-w-[36px] min-h-[36px] sm:min-w-0 sm:min-h-0">Del</button>
           </div>
         </div>
       `;

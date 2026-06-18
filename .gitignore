@@ -31,3 +31,7 @@ pnpm-debug.log*
 AGENTS.md
 DESIGN.md
 GEMINI.md
+
+# Astro
+.astro/
+dist/
