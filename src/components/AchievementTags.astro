@@ -1,0 +1,38 @@
+---
+// src/components/AchievementTags.astro
+---
+
+<div class="bg-surface-1 border border-hairline rounded-xl p-5 select-none transition-all duration-300 hover:border-ink-muted/30 w-full">
+  <div class="flex items-center justify-between border-b border-hairline pb-3 mb-4">
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+      <h2 class="font-display text-lg tracking-wider text-white uppercase">● Achievements ●</h2>
+    </div>
+    <span id="achievements-unlocked-badge" class="text-xs font-mono text-ink-muted">0 / 5 Unlocked</span>
+  </div>
+
+  <!-- Achievements List Container -->
+  <div id="achievements-list-container" class="flex flex-wrap gap-2 justify-start items-center">
+    <!-- Unlocked tags are dynamically highlighted, locked ones are grayed out -->
+    <div data-achievement-id="streak-7" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-hairline font-mono text-xs text-ink-muted bg-canvas opacity-40 transition-all duration-300" title="Maintain a 7-day streak">
+      <span>🏆</span>
+      <span>7 Day Streak</span>
+    </div>
+    <div data-achievement-id="lvl-up" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-hairline font-mono text-xs text-ink-muted bg-canvas opacity-40 transition-all duration-300" title="Reach Level 2">
+      <span>🏆</span>
+      <span>First Level Up</span>
+    </div>
+    <div data-achievement-id="tasks-100" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-hairline font-mono text-xs text-ink-muted bg-canvas opacity-40 transition-all duration-300" title="Complete 100 tasks">
+      <span>🏆</span>
+      <span>100 Quests Cleared</span>
+    </div>
+    <div data-achievement-id="shadow-monarch" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-hairline font-mono text-xs text-ink-muted bg-canvas opacity-40 transition-all duration-300" title="Become the Shadow Monarch (Rank S or Level 20)">
+      <span>👑</span>
+      <span>Shadow Monarch</span>
+    </div>
+    <div data-achievement-id="survivor" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-hairline font-mono text-xs text-ink-muted bg-canvas opacity-40 transition-all duration-300" title="Survive with HP below 20%">
+      <span>💀</span>
+      <span>Survivor of Death</span>
+    </div>
+  </div>
+</div>

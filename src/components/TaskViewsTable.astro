@@ -1,0 +1,94 @@
+---
+// src/components/TaskViewsTable.astro
+---
+
+<div class="bg-surface-1 border border-hairline rounded-xl p-5 select-none transition-all duration-300 hover:border-ink-muted/30">
+  <div class="flex items-center justify-between border-b border-hairline pb-3 mb-4">
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+      <h2 class="font-display text-lg tracking-wider text-white uppercase">● Tasks Views ●</h2>
+    </div>
+    <span class="text-xs font-mono text-ink-muted" id="total-tasks-badge">0 Tasks Total</span>
+  </div>
+
+  <!-- Table View Filter Tabs -->
+  <div class="flex flex-wrap gap-2 mb-4">
+    <button 
+      type="button" 
+      data-view="today"
+      class="text-xs font-mono px-3 py-1.5 rounded bg-transparent hover:bg-surface-2 border border-hairline text-ink-muted hover:text-white cursor-pointer transition-all"
+    >
+      Today
+    </button>
+    <button 
+      type="button" 
+      data-view="yesterday"
+      class="text-xs font-mono px-3 py-1.5 rounded bg-transparent hover:bg-surface-2 border border-hairline text-ink-muted hover:text-white cursor-pointer transition-all"
+    >
+      Yesterday
+    </button>
+    <button 
+      type="button" 
+      data-view="tomorrow"
+      class="text-xs font-mono px-3 py-1.5 rounded bg-transparent hover:bg-surface-2 border border-hairline text-ink-muted hover:text-white cursor-pointer transition-all"
+    >
+      Tomorrow
+    </button>
+    <button 
+      type="button" 
+      data-view="week" 
+      class="text-xs font-mono px-3 py-1.5 rounded bg-surface-2 border border-white/20 text-white cursor-pointer transition-all"
+    >
+      This Week
+    </button>
+    <button 
+      type="button" 
+      data-view="month"
+      class="text-xs font-mono px-3 py-1.5 rounded bg-transparent hover:bg-surface-2 border border-hairline text-ink-muted hover:text-white cursor-pointer transition-all"
+    >
+      This Month
+    </button>
+    <button 
+      type="button" 
+      data-view="all"
+      class="text-xs font-mono px-3 py-1.5 rounded bg-transparent hover:bg-surface-2 border border-hairline text-ink-muted hover:text-white cursor-pointer transition-all"
+    >
+      All
+    </button>
+  </div>
+
+  <!-- Database Table Container -->
+  <div class="overflow-x-auto custom-scrollbar border border-hairline rounded-lg">
+    <table class="w-full text-left font-mono text-xs border-collapse">
+      <thead>
+        <tr class="bg-canvas border-b border-hairline text-ink-muted">
+          <th class="p-3 font-normal uppercase tracking-wider">Activity</th>
+          <th class="p-3 font-normal uppercase tracking-wider text-center">Status</th>
+          <th class="p-3 font-normal uppercase tracking-wider">Due Date</th>
+          <th class="p-3 font-normal uppercase tracking-wider">Linked Stat</th>
+          <th class="p-3 font-normal uppercase tracking-wider">EXP</th>
+          <th class="p-3 font-normal uppercase tracking-wider text-right">Action</th>
+        </tr>
+      </thead>
+      <tbody id="views-table-body" class="divide-y divide-hairline">
+        <!-- Dynmically loaded rows go here -->
+        <tr>
+          <td colspan="6" class="p-6 text-center text-ink-muted italic">
+            No items match the current view filter.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex justify-between items-center mt-3 text-[11px] font-mono text-ink-muted">
+    <div>
+      <span>Completed Range: </span>
+      <span id="completed-stats-range" class="text-white">0 / 0 tasks</span>
+    </div>
+    <div class="flex items-center gap-1">
+      <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+      <span id="completion-efficiency">0% completed</span>
+    </div>
+  </div>
+</div>

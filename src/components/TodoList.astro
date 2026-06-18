@@ -1,0 +1,54 @@
+---
+// src/components/TodoList.astro
+---
+
+<div class="bg-surface-1 border border-hairline rounded-xl p-5 select-none transition-all duration-300 hover:border-ink-muted/30">
+  <div class="flex items-center justify-between border-b border-hairline pb-3 mb-4">
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+      <h2 class="font-display text-lg tracking-wider text-white uppercase">● Tasks ●</h2>
+    </div>
+    <span class="text-xs font-mono text-ink-muted" id="task-count-badge">0 Active</span>
+  </div>
+
+  <div class="space-y-1 mb-4 text-xs font-mono text-red-500 italic">
+    <p>Only Tick and Untick the tasks from here, To add tasks use Add Tasks section,</p>
+    <p>Only Today, Tomorrow & Yesterday's Tasks will show here</p>
+  </div>
+
+  <!-- Day Filter Tabs -->
+  <div class="bg-canvas border border-hairline rounded-full p-1 flex items-center gap-1 mb-4">
+    <button 
+      type="button" 
+      id="tab-yesterday" 
+      data-tab="yesterday"
+      class="flex-1 text-center py-2 px-3 rounded-full font-mono text-xs font-medium cursor-pointer transition-all duration-200 text-ink-muted hover:text-white"
+    >
+      Yesterday
+    </button>
+    <button 
+      type="button" 
+      id="tab-today" 
+      data-tab="today"
+      class="flex-1 text-center py-2 px-3 rounded-full font-mono text-xs font-medium cursor-pointer transition-all duration-200 bg-surface-2 text-white border border-hairline/25"
+    >
+      Today
+    </button>
+    <button 
+      type="button" 
+      id="tab-tomorrow" 
+      data-tab="tomorrow"
+      class="flex-1 text-center py-2 px-3 rounded-full font-mono text-xs font-medium cursor-pointer transition-all duration-200 text-ink-muted hover:text-white"
+    >
+      Tomorrow
+    </button>
+  </div>
+
+  <!-- Active Todo List Container -->
+  <div id="todo-items-list" class="space-y-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+    <!-- Items are dynamically injected here by client-side state.js -->
+    <div class="text-center py-8 font-mono text-xs text-ink-muted border border-dashed border-hairline rounded-lg">
+      No tasks scheduled for today. Create one to begin your hunter training.
+    </div>
+  </div>
+</div>

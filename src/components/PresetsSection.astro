@@ -1,0 +1,82 @@
+---
+// src/components/PresetsSection.astro
+---
+
+<div class="bg-surface-1 border border-hairline rounded-xl p-5 select-none transition-all duration-300 hover:border-ink-muted/30">
+  <div class="flex items-center justify-between border-b border-hairline pb-3 mb-4">
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+      <h2 class="font-display text-lg tracking-wider text-white uppercase">● Template Presets ●</h2>
+    </div>
+    <button 
+      type="button" 
+      id="toggle-add-template-btn" 
+      class="text-[10px] font-mono text-white hover:underline cursor-pointer bg-surface-2 px-2 py-0.5 rounded border border-hairline transition-all"
+    >
+      + Create Preset
+    </button>
+  </div>
+
+  <!-- Add/Edit Template Panel -->
+  <div id="template-editor-panel" class="bg-canvas border border-hairline rounded-lg p-3 mb-3 hidden space-y-3">
+    <h3 id="template-editor-title" class="font-mono text-[10px] text-white uppercase font-bold tracking-wider">New Preset</h3>
+    <input type="hidden" id="edit-template-id" />
+    <div class="space-y-2">
+      <div>
+        <label class="block font-mono text-[9px] text-ink-muted uppercase">Preset Title</label>
+        <input 
+          type="text" 
+          id="template-name-input" 
+          placeholder="Preset Title (e.g. Daily Workout)" 
+          class="bg-surface-2 border border-hairline text-white rounded px-2 py-1 text-xs w-full focus:outline-none focus:border-white transition-all"
+        />
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="block font-mono text-[9px] text-ink-muted uppercase">Category</label>
+          <select 
+            id="template-category-select" 
+            class="bg-surface-2 border border-hairline text-white rounded px-2 py-1 text-xs w-full focus:outline-none"
+          >
+            <option value="strength">Attack</option>
+            <option value="intelligence">Intelligence</option>
+            <option value="willpower">Willpower</option>
+            <option value="charisma">Charisma</option>
+            <option value="skills">Skills</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-mono text-[9px] text-ink-muted uppercase">EXP Reward</label>
+          <input 
+            type="number" 
+            id="template-exp-input" 
+            placeholder="EXP" 
+            min="5" 
+            value="10"
+            class="bg-surface-2 border border-hairline text-white rounded px-2 py-1 text-xs w-full focus:outline-none"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-2 justify-end">
+      <button 
+        type="button" 
+        id="cancel-template-btn" 
+        class="bg-transparent hover:bg-surface-2 border border-hairline text-ink-muted px-2.5 py-1 rounded text-[10px] font-mono cursor-pointer transition-all"
+      >
+        Cancel
+      </button>
+      <button 
+        type="button" 
+        id="save-template-btn" 
+        class="bg-white text-black px-2.5 py-1 rounded text-[10px] font-mono font-bold cursor-pointer transition-all"
+      >
+        Save Preset
+      </button>
+    </div>
+  </div>
+  
+  <div class="grid grid-cols-1 gap-2" id="templates-list-container">
+    <!-- Templates will be rendered here dynamically by central state.js -->
+  </div>
+</div>

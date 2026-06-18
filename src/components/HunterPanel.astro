@@ -1,0 +1,126 @@
+---
+// src/components/HunterPanel.astro
+---
+
+<div class="bg-surface-1 border border-hairline rounded-xl p-5 select-none transition-all duration-300 hover:border-ink-muted/30 w-full">
+  <div class="flex items-center justify-between border-b border-hairline pb-3 mb-4">
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+      <h2 class="font-display text-lg tracking-wider text-white uppercase">● Hunter Profile ●</h2>
+    </div>
+    <span class="text-xs font-mono text-ink-muted">SOLO_LEVELING_v2.0</span>
+  </div>
+
+  <!-- Level Status Bar Card -->
+  <div class="bg-canvas border border-hairline rounded-lg overflow-hidden mb-4">
+    <!-- SVG Shadow Hunter Avatar (STATIC & OPTIMIZED) -->
+    <div class="relative w-full h-44 bg-neutral-950 flex items-center justify-center border-b border-hairline overflow-hidden group">
+      <svg class="w-full h-full text-neutral-800" viewBox="0 0 200 112" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="112" fill="#030303"/>
+        <path d="M0 112L70 42L110 82L200 22" stroke="#121212" stroke-width="0.5"/>
+        <path d="M20 112L100 32L140 72L200 12" stroke="#121212" stroke-width="0.5"/>
+        <path d="M60 112 C75 90, 85 85, 90 70 C88 65, 82 55, 85 45 C86 42, 92 38, 98 32 C100 25, 108 20, 114 25 C120 30, 116 42, 118 48 C122 55, 120 62, 118 72 C122 82, 130 92, 145 112 Z" fill="#090909" stroke="#1c1c1c" stroke-width="1"/>
+        <path d="M75 112 C82 98, 88 95, 92 85 C94 82, 93 78, 96 75 C98 72, 102 70, 105 60 C108 55, 112 58, 110 65 C108 72, 109 76, 112 80 C114 84, 116 88, 118 92 C120 96, 125 102, 132 112 Z" fill="#111111"/>
+        <circle cx="106" cy="46" r="1" fill="#ffffff"/>
+        <path d="M106 46 L95 49" stroke="#ffffff" stroke-width="0.75" stroke-linecap="round" opacity="0.8"/>
+        <line x1="10" y1="0" x2="10" y2="112" stroke="#ffffff" stroke-width="0.05" opacity="0.1"/>
+        <line x1="40" y1="0" x2="40" y2="112" stroke="#ffffff" stroke-width="0.05" opacity="0.1"/>
+        <line x1="70" y1="0" x2="70" y2="112" stroke="#ffffff" stroke-width="0.05" opacity="0.1"/>
+        <line x1="100" y1="0" x2="100" y2="112" stroke="#ffffff" stroke-width="0.05" opacity="0.1"/>
+        <line x1="130" y1="0" x2="130" y2="112" stroke="#ffffff" stroke-width="0.05" opacity="0.1"/>
+        <line x1="160" y1="0" x2="160" y2="112" stroke="#ffffff" stroke-width="0.05" opacity="0.1"/>
+        <line x1="190" y1="0" x2="190" y2="112" stroke="#ffffff" stroke-width="0.05" opacity="0.1"/>
+      </svg>
+      <div id="hunter-avatar-rank" class="absolute bottom-2 left-3 bg-neutral-900/80 border border-hairline rounded px-2 py-0.5 text-[10px] font-mono text-ink-muted uppercase">
+        Rank E
+      </div>
+    </div>
+
+    <!-- Status Content Block -->
+    <div class="p-4 font-mono text-sm leading-relaxed text-ink-muted space-y-2">
+      <!-- Hunter Name -->
+      <div class="flex items-center justify-between py-0.5 border-b border-hairline/20">
+        <span>Hunter Name:</span>
+        <input 
+          type="text" 
+          id="hunter-name-input" 
+          value="Sung Jin-woo" 
+          class="bg-transparent border-b border-transparent hover:border-ink-muted/50 focus:border-white focus:outline-none text-white text-right font-medium max-w-[150px] transition-all px-1 py-0"
+          title="Click to change hunter name"
+        />
+      </div>
+      
+      <!-- Level -->
+      <div class="flex justify-between py-0.5 border-b border-hairline/20">
+        <span>Level:</span>
+        <span id="hunter-level" class="text-white font-bold">1</span>
+      </div>
+      
+      <!-- Job/Class -->
+      <div class="flex justify-between py-0.5 border-b border-hairline/20">
+        <span>Class:</span>
+        <span id="hunter-job" class="text-white font-bold">Necromancer</span>
+      </div>
+
+      <!-- Current Rank -->
+      <div class="flex justify-between py-0.5 border-b border-hairline/20">
+        <span>Current Rank:</span>
+        <span id="hunter-rank" class="text-white font-bold uppercase">E</span>
+      </div>
+
+      <!-- Title -->
+      <div class="flex justify-between py-0.5 border-b border-hairline/20">
+        <span>Title:</span>
+        <span id="hunter-title" class="text-white font-bold">None</span>
+      </div>
+
+      <!-- Current XP -->
+      <div class="flex justify-between py-0.5 border-b border-hairline/20">
+        <span>Current XP:</span>
+        <span id="hunter-exp" class="text-white font-bold">0 XP</span>
+      </div>
+      
+      <!-- HP Display & SOLID Progress Bar -->
+      <div class="pt-1 space-y-1.5">
+        <div class="flex justify-between text-xs">
+          <span>❤️ HP:</span>
+          <span id="hunter-hp" class="text-white font-bold">100 / 100</span>
+        </div>
+        <div class="w-full bg-canvas border border-hairline rounded-sm h-3 overflow-hidden p-[1px]">
+          <div id="hunter-hp-solid-bar" class="bg-white h-full transition-all duration-300" style="width: 100%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Achievements Sub-Section (Transferred Inside Hunter Profile) -->
+  <div class="border-t border-hairline pt-3 mt-3">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-[10px] font-mono text-ink-muted uppercase tracking-wider block">System Achievements</span>
+      <span id="achievements-unlocked-badge" class="text-[9px] font-mono text-ink-muted">0 / 5 Unlocked</span>
+    </div>
+    
+    <div id="achievements-list-container" class="flex flex-wrap gap-1.5 justify-start items-center">
+      <div data-achievement-id="streak-7" class="flex items-center gap-1 px-2 py-1 rounded border border-hairline font-mono text-[9px] text-ink-muted bg-canvas opacity-40 transition-all duration-300" title="7-Day Streak">
+        <span>🏆</span>
+        <span>7 Day</span>
+      </div>
+      <div data-achievement-id="lvl-up" class="flex items-center gap-1 px-2 py-1 rounded border border-hairline font-mono text-[9px] text-ink-muted bg-canvas opacity-40 transition-all duration-300" title="First Level Up">
+        <span>🏆</span>
+        <span>Lvl Up</span>
+      </div>
+      <div data-achievement-id="tasks-100" class="flex items-center gap-1 px-2 py-1 rounded border border-hairline font-mono text-[9px] text-ink-muted bg-canvas opacity-40 transition-all duration-300" title="100 Tasks Completed">
+        <span>🏆</span>
+        <span>100 Cleared</span>
+      </div>
+      <div data-achievement-id="shadow-monarch" class="flex items-center gap-1 px-2 py-1 rounded border border-hairline font-mono text-[9px] text-ink-muted bg-canvas opacity-40 transition-all duration-300" title="Shadow Monarch">
+        <span>👑</span>
+        <span>Monarch</span>
+      </div>
+      <div data-achievement-id="survivor" class="flex items-center gap-1 px-2 py-1 rounded border border-hairline font-mono text-[9px] text-ink-muted bg-canvas opacity-40 transition-all duration-300" title="Survivor of Death">
+        <span>💀</span>
+        <span>Survivor</span>
+      </div>
+    </div>
+  </div>
+</div>

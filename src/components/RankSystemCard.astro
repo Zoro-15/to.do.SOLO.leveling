@@ -1,0 +1,109 @@
+---
+// src/components/RankSystemCard.astro
+---
+
+<div class="bg-surface-1 border border-hairline rounded-xl p-5 select-none transition-all duration-300 hover:border-ink-muted/30 w-full">
+  <div class="flex items-center justify-between border-b border-hairline pb-3 mb-4">
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+      <h2 class="font-display text-lg tracking-wider text-white uppercase">● Rank System Progression ●</h2>
+    </div>
+    <span id="rank-system-badge" class="text-xs font-mono text-ink-muted uppercase">Rank E</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+    <!-- Left Column: Current Rank & Progress Bar -->
+    <div class="lg:col-span-4 space-y-4">
+      <div class="bg-canvas border border-hairline rounded-lg p-3 flex items-center justify-between">
+        <div class="space-y-0.5">
+          <span class="text-[9px] font-mono text-ink-muted uppercase tracking-wider block">Current Rank</span>
+          <span id="current-rank-label" class="font-display text-2xl font-medium text-white tracking-tight uppercase">E</span>
+        </div>
+        <div class="w-12 h-12 rounded border border-hairline flex items-center justify-center bg-surface-1/40">
+          <span id="current-rank-circle" class="font-display text-lg font-bold text-white">E</span>
+        </div>
+      </div>
+
+      <!-- Rank Progress Bar -->
+      <div class="space-y-1.5">
+        <div class="flex justify-between items-center text-[10px] font-mono">
+          <span class="text-ink-muted">Next Rank Progress</span>
+          <span id="rank-progress-percent" class="text-white font-bold">0%</span>
+        </div>
+        <div class="w-full bg-canvas border border-hairline rounded-sm h-3 p-[1px] overflow-hidden">
+          <div id="rank-solid-bar" class="bg-white h-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Horizontal Progression Ladder Chain (Square nodes, no shadows) -->
+    <div class="lg:col-span-8 border-l lg:border-l border-t lg:border-t-0 border-hairline/25 pt-4 lg:pt-0 lg:pl-6">
+      <span class="text-[9px] font-mono text-ink-muted uppercase tracking-wider block mb-3">Hunter Rank Ladder</span>
+      
+      <!-- Horizontal Flow Path with Square nodes -->
+      <div class="flex items-center justify-between gap-1 overflow-x-auto pb-2 custom-scrollbar" id="rank-ladder-flow">
+        <!-- Step 1: E -->
+        <div class="flex items-center flex-1 min-w-[50px] last:flex-initial">
+          <div data-rank-node="E" class="flex flex-col items-center gap-1">
+            <div class="w-8 h-8 rounded border border-white bg-white text-black flex items-center justify-center font-mono font-bold text-xs transition-all">E</div>
+            <span class="text-[8px] font-mono text-white">E</span>
+          </div>
+          <div class="h-[1px] bg-hairline flex-1 mx-1"></div>
+        </div>
+        <!-- Step 2: D -->
+        <div class="flex items-center flex-1 min-w-[50px] last:flex-initial">
+          <div data-rank-node="D" class="flex flex-col items-center gap-1">
+            <div class="w-8 h-8 rounded border border-hairline bg-canvas text-ink-muted flex items-center justify-center font-mono font-bold text-xs transition-all">D</div>
+            <span class="text-[8px] font-mono text-ink-muted">D</span>
+          </div>
+          <div class="h-[1px] bg-hairline flex-1 mx-1"></div>
+        </div>
+        <!-- Step 3: C -->
+        <div class="flex items-center flex-1 min-w-[50px] last:flex-initial">
+          <div data-rank-node="C" class="flex flex-col items-center gap-1">
+            <div class="w-8 h-8 rounded border border-hairline bg-canvas text-ink-muted flex items-center justify-center font-mono font-bold text-xs transition-all">C</div>
+            <span class="text-[8px] font-mono text-ink-muted">C</span>
+          </div>
+          <div class="h-[1px] bg-hairline flex-1 mx-1"></div>
+        </div>
+        <!-- Step 4: B -->
+        <div class="flex items-center flex-1 min-w-[50px] last:flex-initial">
+          <div data-rank-node="B" class="flex flex-col items-center gap-1">
+            <div class="w-8 h-8 rounded border border-hairline bg-canvas text-ink-muted flex items-center justify-center font-mono font-bold text-xs transition-all">B</div>
+            <span class="text-[8px] font-mono text-ink-muted">B</span>
+          </div>
+          <div class="h-[1px] bg-hairline flex-1 mx-1"></div>
+        </div>
+        <!-- Step 5: A -->
+        <div class="flex items-center flex-1 min-w-[50px] last:flex-initial">
+          <div data-rank-node="A" class="flex flex-col items-center gap-1">
+            <div class="w-8 h-8 rounded border border-hairline bg-canvas text-ink-muted flex items-center justify-center font-mono font-bold text-xs transition-all">A</div>
+            <span class="text-[8px] font-mono text-ink-muted">A</span>
+          </div>
+          <div class="h-[1px] bg-hairline flex-1 mx-1"></div>
+        </div>
+        <!-- Step 6: S -->
+        <div class="flex items-center flex-1 min-w-[50px] last:flex-initial">
+          <div data-rank-node="S" class="flex flex-col items-center gap-1">
+            <div class="w-8 h-8 rounded border border-hairline bg-canvas text-ink-muted flex items-center justify-center font-mono font-bold text-xs transition-all">S</div>
+            <span class="text-[8px] font-mono text-ink-muted">S</span>
+          </div>
+          <div class="h-[1px] bg-hairline flex-1 mx-1"></div>
+        </div>
+        <!-- Step 7: National -->
+        <div class="flex items-center flex-1 min-w-[50px] last:flex-initial">
+          <div data-rank-node="National Rank" class="flex flex-col items-center gap-1">
+            <div class="w-8 h-8 rounded border border-hairline bg-canvas text-ink-muted flex items-center justify-center font-mono font-bold text-xs transition-all">NAT</div>
+            <span class="text-[8px] font-mono text-ink-muted">NAT</span>
+          </div>
+          <div class="h-[1px] bg-hairline flex-1 mx-1"></div>
+        </div>
+        <!-- Step 8: Monarch -->
+        <div data-rank-node="Shadow Monarch" class="flex flex-col items-center gap-1">
+          <div class="w-8 h-8 rounded border border-hairline bg-canvas text-ink-muted flex items-center justify-center font-mono font-bold text-xs transition-all">👑</div>
+          <span class="text-[8px] font-mono text-ink-muted">👑</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

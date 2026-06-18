@@ -1,0 +1,36 @@
+---
+// src/components/QuoteCard.astro
+---
+
+<div class="bg-surface-1 border border-hairline rounded-xl p-5 select-none transition-all duration-300 hover:border-ink-muted/30 w-full h-full flex flex-col justify-between min-h-[160px]">
+  <div class="flex items-center justify-between border-b border-hairline pb-2 mb-3">
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+      <span class="text-xs font-mono text-ink-muted uppercase">Hunter Motivation</span>
+    </div>
+    <span class="text-[9px] font-mono text-ink-muted">Click quote to edit</span>
+  </div>
+
+  <div class="flex-1 flex items-center justify-center py-2">
+    <!-- View State -->
+    <div id="quote-display-container" class="cursor-pointer group w-full text-center">
+      <p id="quote-text-display" class="font-display text-lg sm:text-xl italic text-white leading-relaxed font-medium transition-colors group-hover:text-ink-muted text-pretty">
+        “Arise.”
+      </p>
+    </div>
+
+    <!-- Edit State (Hidden by default) -->
+    <div id="quote-edit-container" class="hidden w-full">
+      <textarea 
+        id="quote-textarea-input"
+        rows="2"
+        maxlength="120"
+        class="w-full bg-canvas border border-hairline text-white font-mono text-sm rounded px-3 py-2 focus:outline-none focus:border-white transition-all text-center resize-none custom-scrollbar"
+        placeholder="Enter your motivation quote..."
+      ></textarea>
+      <div class="flex justify-end gap-1.5 mt-1 text-[9px] font-mono text-ink-muted">
+        <span>Press Enter or blur to save</span>
+      </div>
+    </div>
+  </div>
+</div>

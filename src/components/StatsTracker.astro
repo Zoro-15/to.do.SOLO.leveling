@@ -1,0 +1,144 @@
+---
+// src/components/StatsTracker.astro
+---
+
+<div class="space-y-4 select-none">
+  <div class="flex items-center gap-2 border-b border-hairline pb-3 mb-2">
+    <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+    <h2 class="font-display text-lg tracking-wider text-white uppercase">● Stats & Levels Tracker ●</h2>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4" id="stats-grid">
+    
+    <!-- Attack Card -->
+    <div class="bg-surface-1 border border-hairline rounded-xl p-4 flex flex-col justify-between hover:border-ink-muted/30 transition-all duration-300">
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-mono text-ink-muted uppercase tracking-widest flex items-center gap-1.5">
+            <!-- Sword SVG Icon -->
+            <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+            </svg>
+            Attack
+          </span>
+          <span id="stat-level-attack" class="text-xs font-mono bg-surface-2 border border-hairline rounded px-1.5 py-0.5 text-white">Lvl 1</span>
+        </div>
+        <p class="text-xs text-ink-muted leading-relaxed">Physical power, endurance, and health capacity.</p>
+      </div>
+      <div class="mt-4 pt-3 border-t border-hairline/20">
+        <div class="flex justify-between text-[11px] font-mono text-ink-muted mb-1">
+          <span>EXP Gained</span>
+          <span id="stat-exp-attack">0 / 100</span>
+        </div>
+        <div class="w-full bg-canvas border border-hairline rounded-full h-1.5 overflow-hidden">
+          <div id="stat-bar-attack" class="bg-white h-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Intelligence Card -->
+    <div class="bg-surface-1 border border-hairline rounded-xl p-4 flex flex-col justify-between hover:border-ink-muted/30 transition-all duration-300">
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-mono text-ink-muted uppercase tracking-widest flex items-center gap-1.5">
+            <!-- Intelligence Icon -->
+            <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a3 3 0 01-3-3V9.75m3 3a3 3 0 003-3V9.75M6 21H3.75A1.75 1.75 0 012 19.25V17.5m16 3.5h2.25A1.75 1.75 0 0022 19.25V17.5M3.75 3H6a1.75 1.75 0 011.75 1.75v.25H3.75A1.75 1.75 0 012 3.25V3zm16.5 0H18a1.75 1.75 0 00-1.75 1.75v.25h4.25A1.75 1.75 0 0022 3.25V3z" />
+            </svg>
+            Intelligence
+          </span>
+          <span id="stat-level-intelligence" class="text-xs font-mono bg-surface-2 border border-hairline rounded px-1.5 py-0.5 text-white">Lvl 1</span>
+        </div>
+        <p class="text-xs text-ink-muted leading-relaxed">Mental sharpness, logic, learning, and academic progress.</p>
+      </div>
+      <div class="mt-4 pt-3 border-t border-hairline/20">
+        <div class="flex justify-between text-[11px] font-mono text-ink-muted mb-1">
+          <span>EXP Gained</span>
+          <span id="stat-exp-intelligence">0 / 100</span>
+        </div>
+        <div class="w-full bg-canvas border border-hairline rounded-full h-1.5 overflow-hidden">
+          <div id="stat-bar-intelligence" class="bg-white h-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Willpower Card -->
+    <div class="bg-surface-1 border border-hairline rounded-xl p-4 flex flex-col justify-between hover:border-ink-muted/30 transition-all duration-300">
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-mono text-ink-muted uppercase tracking-widest flex items-center gap-1.5">
+            <!-- Shield Icon -->
+            <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+            </svg>
+            Willpower
+          </span>
+          <span id="stat-level-willpower" class="text-xs font-mono bg-surface-2 border border-hairline rounded px-1.5 py-0.5 text-white">Lvl 1</span>
+        </div>
+        <p class="text-xs text-ink-muted leading-relaxed">Self-discipline, core focus, habit consistency, and resilience.</p>
+      </div>
+      <div class="mt-4 pt-3 border-t border-hairline/20">
+        <div class="flex justify-between text-[11px] font-mono text-ink-muted mb-1">
+          <span>EXP Gained</span>
+          <span id="stat-exp-willpower">0 / 100</span>
+        </div>
+        <div class="w-full bg-canvas border border-hairline rounded-full h-1.5 overflow-hidden">
+          <div id="stat-bar-willpower" class="bg-white h-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charisma Card -->
+    <div class="bg-surface-1 border border-hairline rounded-xl p-4 flex flex-col justify-between hover:border-ink-muted/30 transition-all duration-300">
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-mono text-ink-muted uppercase tracking-widest flex items-center gap-1.5">
+            <!-- Sparkles Icon -->
+            <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l-.813-5.096L3 15l5.187-.88L9 9l.813 5.12L15 15l-5.187.904zM19.071 7.071l-1.071 3.071-1.071-3.071-3.071-1.071 3.071-1.071 1.071-3.071 1.071 3.071 3.071 1.071-3.071 1.071zM18.075 16.242l-.825 2.242-.825-2.242-2.242-.825 2.242-.825.825-2.242.825 2.242 2.242.825-2.242.825z" />
+            </svg>
+            Charisma
+          </span>
+          <span id="stat-level-charisma" class="text-xs font-mono bg-surface-2 border border-hairline rounded px-1.5 py-0.5 text-white">Lvl 1</span>
+        </div>
+        <p class="text-xs text-ink-muted leading-relaxed">Social presence, professional networking, and relationship building.</p>
+      </div>
+      <div class="mt-4 pt-3 border-t border-hairline/20">
+        <div class="flex justify-between text-[11px] font-mono text-ink-muted mb-1">
+          <span>EXP Gained</span>
+          <span id="stat-exp-charisma">0 / 100</span>
+        </div>
+        <div class="w-full bg-canvas border border-hairline rounded-full h-1.5 overflow-hidden">
+          <div id="stat-bar-charisma" class="bg-white h-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills Card -->
+    <div class="bg-surface-1 border border-hairline rounded-xl p-4 flex flex-col justify-between hover:border-ink-muted/30 transition-all duration-300">
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-mono text-ink-muted uppercase tracking-widest flex items-center gap-1.5">
+            <!-- Book Icon -->
+            <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-16.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-16.25v14.25" />
+            </svg>
+            Skills
+          </span>
+          <span id="stat-level-skills" class="text-xs font-mono bg-surface-2 border border-hairline rounded px-1.5 py-0.5 text-white">Lvl 1</span>
+        </div>
+        <p class="text-xs text-ink-muted leading-relaxed">Proficiency, control, and mastery over professional or hobby abilities.</p>
+      </div>
+      <div class="mt-4 pt-3 border-t border-hairline/20">
+        <div class="flex justify-between text-[11px] font-mono text-ink-muted mb-1">
+          <span>EXP Gained</span>
+          <span id="stat-exp-skills">0 / 100</span>
+        </div>
+        <div class="w-full bg-canvas border border-hairline rounded-full h-1.5 overflow-hidden">
+          <div id="stat-bar-skills" class="bg-white h-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

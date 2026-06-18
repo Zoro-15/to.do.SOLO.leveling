@@ -1,0 +1,57 @@
+---
+// src/components/AnalyticsCard.astro
+---
+
+<div class="bg-surface-1 border border-hairline rounded-xl p-5 select-none transition-all duration-300 hover:border-ink-muted/30 w-full">
+  <div class="flex items-center justify-between border-b border-hairline pb-3 mb-4">
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+      <h2 class="font-display text-lg tracking-wider text-white uppercase">● Analytics & Records ●</h2>
+    </div>
+    <span class="text-xs font-mono text-ink-muted uppercase">Record Log</span>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <!-- Completion Rate -->
+    <div class="bg-canvas border border-hairline rounded-lg p-3 col-span-2 flex items-center justify-between">
+      <div class="space-y-0.5">
+        <span class="text-[9px] font-mono text-ink-muted uppercase tracking-wider block">Completion Rate</span>
+        <span id="analytics-rate" class="font-display text-2xl font-bold text-white">0%</span>
+      </div>
+      <div class="text-[10px] font-mono text-ink-muted text-right">
+        <div>Success Efficiency</div>
+        <div id="analytics-total-quests">0 evaluated</div>
+      </div>
+    </div>
+
+    <!-- Current Streak -->
+    <div class="bg-canvas border border-hairline rounded-lg p-3 space-y-0.5">
+      <span class="text-[9px] font-mono text-ink-muted uppercase tracking-wider block">Current Streak</span>
+      <div class="flex items-baseline gap-1">
+        <span id="analytics-current-streak" class="font-display text-xl font-bold text-white">0</span>
+        <span class="text-[10px] font-mono text-ink-muted">days</span>
+      </div>
+    </div>
+
+    <!-- Longest Streak -->
+    <div class="bg-canvas border border-hairline rounded-lg p-3 space-y-0.5">
+      <span class="text-[9px] font-mono text-ink-muted uppercase tracking-wider block">Longest Streak</span>
+      <div class="flex items-baseline gap-1">
+        <span id="analytics-longest-streak" class="font-display text-xl font-bold text-white">0</span>
+        <span class="text-[10px] font-mono text-ink-muted">days</span>
+      </div>
+    </div>
+
+    <!-- Tasks Completed -->
+    <div class="bg-canvas border border-hairline rounded-lg p-3 space-y-0.5 border-l-2 border-l-white">
+      <span class="text-[9px] font-mono text-ink-muted uppercase tracking-wider block">Completed Quests</span>
+      <span id="analytics-completed" class="font-display text-xl font-bold text-white">0</span>
+    </div>
+
+    <!-- Missed Tasks -->
+    <div class="bg-canvas border border-hairline rounded-lg p-3 space-y-0.5 border-l-2 border-l-red-500">
+      <span class="text-[9px] font-mono text-ink-muted uppercase tracking-wider block font-bold text-red-500">Failed / Missed</span>
+      <span id="analytics-missed" class="font-display text-xl font-bold text-red-500">0</span>
+    </div>
+  </div>
+</div>
